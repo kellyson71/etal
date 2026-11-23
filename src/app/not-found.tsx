@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { PageHydrated } from '@/engine/next';
 
 export const metadata: Metadata = {
   title: 'Página não encontrada',
@@ -20,6 +21,7 @@ export default function NotFound() {
         <span className="cta__dot" aria-hidden="true" />
         <span>Voltar para o início</span>
       </Link>
+      <PageHydrated />
     </section>
   );
 }
