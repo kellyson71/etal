@@ -3,8 +3,6 @@
 // MOCK DATA (everything marked `placeholder: true`, plus the following assumptions):
 // - Theme: "Inteligência Artificial" is the provisional theme; title and subtitle are not decided yet.
 // - Registration: SUAP link for 2026 does not exist yet, so the status is 'soon'.
-// - Schedule: mirrors the 2025 structure, moved to 2 a 4 de dezembro de 2026.
-// - Talks, speakers, minicursos and their instructors: invented examples. The names are fictional.
 // - E-sports: the 2025 games, reused until the 2026 list is confirmed.
 // - Free entry and open to the public: true in 2025, assumed for 2026.
 // - NADIC as organizer: assumed from the domain (etal.nadic.com.br).
@@ -17,7 +15,7 @@ export type Registration =
   | { status: "open"; url: string }
   | { status: "closed" };
 
-export type DayId = "qua" | "qui" | "sex";
+export type DayId = "qui" | "sex";
 
 export type Day = {
   id: DayId;
@@ -32,6 +30,8 @@ export type Session = {
   start: string; // 'HH:MM'
   end: string;
   title: string;
+  pause?: true;
+  href?: string;
 };
 
 export type Speaker =
@@ -40,7 +40,7 @@ export type Speaker =
 
 export type Talk = {
   slug: string;
-  format: "Palestra" | "Mesa-redonda";
+  format: "Palestra de abertura" | "Palestra" | "Mesa-redonda" | "Rodas de conversa";
   title: string;
   day: DayId;
   start: string;
@@ -48,14 +48,29 @@ export type Talk = {
   placeholder: true;
 };
 
+export type CoursePeriodId = "manha" | "tarde";
+
+export type CoursePeriod = {
+  id: CoursePeriodId;
+  label: string;
+  day: DayId;
+  start: string;
+  end: string;
+  pause: { start: string; end: string };
+};
+
 export type Course = {
   slug: string;
   title: string;
-  instructor: string;
-  level: "Iniciante" | "Intermediário";
-  summary: string;
-  seats: number;
-  placeholder: true;
+  detail: string | null;
+  requirements: string | null;
+  audience: string | null;
+  content: string | null;
+  author: string;
+  picture: string | null;
+  vagas: number | null;
+  period: CoursePeriodId;
+  room: string;
 };
 
 export type Game = {
@@ -75,20 +90,20 @@ export const site = {
   fullName: "Encontro de Tecnologia do Alto Oeste Potiguar",
   url: "https://etal.nadic.com.br",
   description:
-    "O VIII ETAL acontece de 2 a 4 de dezembro de 2026 no IFRN Pau dos Ferros, com palestras, minicursos e e-sports sobre inteligência artificial.",
+    "O VIII ETAL acontece em 3 e 4 de dezembro de 2026 no IFRN Pau dos Ferros, com palestras, minicursos e e-sports sobre inteligência artificial.",
   theme: {
     lines: ["Quem programa o futuro? Carreira em Ti na era da IA"],
     placeholder: true,
   },
   dates: {
-    label: "2 a 4 de dezembro de 2026",
-    short: "2–4 dez",
-    weekdays: "de quarta a sexta",
-    start: "2026-12-02",
+    label: "3 e 4 de dezembro de 2026",
+    short: "3–4 dez",
+    weekdays: "quinta e sexta",
+    start: "2026-12-03",
     end: "2026-12-04",
     // The countdown counts to the credenciamento, the first session.
-    startsAt: "2026-12-02T13:00:00-03:00",
-    startsLabel: "quarta, 2 de dezembro, 13h",
+    startsAt: "2026-12-03T07:00:00-03:00",
+    startsLabel: "quinta, 3 de dezembro, 7h",
   },
   registration,
   entry: "Entrada gratuita e aberta ao público",
@@ -118,7 +133,7 @@ export const site = {
 // The LED strip under the hero. Decorative: every item also appears as real text elsewhere.
 export const ticker = [
   "VIII ETAL",
-  "2 a 4 de dezembro de 2026",
+  "3 e 4 de dezembro de 2026",
   "IFRN Campus Pau dos Ferros",
   "Inteligência Artificial",
   "Entrada gratuita",
@@ -133,236 +148,127 @@ export const nav = [
 
 export const about = {
   statement:
-    "O ETAL junta estudantes, professores e quem trabalha com tecnologia no Alto Oeste Potiguar para três dias de palestras, minicursos e competição. Em 2026 o assunto é inteligência artificial: como ela funciona, onde ela erra e o que dá para construir com ela a partir de Pau dos Ferros.",
+    "O ETAL junta estudantes, professores e quem trabalha com tecnologia no Alto Oeste Potiguar para dois dias de palestras, minicursos e competição. Em 2026 o assunto é inteligência artificial: como ela funciona, onde ela erra e o que dá para construir com ela a partir de Pau dos Ferros.",
 };
 
 export const days: Day[] = [
-  {
-    id: "qua",
-    weekday: "Quarta",
-    date: "2 de dezembro",
-    isoDate: "2026-12-02",
-    summary: "Credenciamento, competição e minicursos",
-  },
   {
     id: "qui",
     weekday: "Quinta",
     date: "3 de dezembro",
     isoDate: "2026-12-03",
-    summary: "Abertura, palestra e mesa-redonda",
+    summary: "Minicursos, competições, palestra de abertura e mesa-redonda",
   },
   {
     id: "sex",
     weekday: "Sexta",
     date: "4 de dezembro",
     isoDate: "2026-12-04",
-    summary: "Palestras, mesa-redonda e premiação",
+    summary: "Mesa-redonda, palestra, rodas de conversa, finais e encerramento",
   },
 ];
 
 export const schedule: Session[] = [
-  { day: "qua", start: "13:00", end: "17:00", title: "Credenciamento" },
-  {
-    day: "qua",
-    start: "14:00",
-    end: "18:00",
-    title: "Competição de jogos: classificatórias",
-  },
-  {
-    day: "qua",
-    start: "14:00",
-    end: "18:00",
-    title: "Minicursos, primeiro encontro",
-  },
-  { day: "qui", start: "07:00", end: "11:00", title: "Credenciamento" },
-  {
-    day: "qui",
-    start: "08:00",
-    end: "12:00",
-    title: "Competição de jogos: finais",
-  },
-  {
-    day: "qui",
-    start: "08:00",
-    end: "12:00",
-    title: "Minicursos, segundo encontro",
-  },
-  {
-    day: "qui",
-    start: "13:00",
-    end: "14:30",
-    title: "Cerimônia de abertura e palestra",
-  },
-  {
-    day: "qui",
-    start: "14:50",
-    end: "16:20",
-    title: "Intervalo e apresentação cultural",
-  },
-  { day: "qui", start: "16:30", end: "18:00", title: "Mesa-redonda" },
-  { day: "sex", start: "07:30", end: "08:30", title: "Palestra" },
-  { day: "sex", start: "08:50", end: "09:20", title: "Apresentação cultural" },
-  { day: "sex", start: "09:20", end: "10:20", title: "Palestra" },
-  { day: "sex", start: "10:30", end: "12:00", title: "Mesa-redonda" },
-  { day: "sex", start: "13:00", end: "14:30", title: "Palestra" },
-  {
-    day: "sex",
-    start: "14:50",
-    end: "16:20",
-    title: "Apresentação cultural e encerramento",
-  },
-  {
-    day: "sex",
-    start: "16:30",
-    end: "18:00",
-    title: "Premiação e coffee break",
-  },
+  { day: "qui", start: "07:00", end: "10:00", title: "Credenciamento" },
+  { day: "qui", start: "07:30", end: "10:00", title: "Minicursos da manhã", href: "/#minicursos" },
+  { day: "qui", start: "07:30", end: "10:00", title: "Capture the Flag" },
+  { day: "qui", start: "07:30", end: "10:00", title: "Desafio de programação 1" },
+  { day: "qui", start: "08:30", end: "08:50", title: "Intervalo", pause: true },
+  { day: "qui", start: "10:00", end: "10:10", title: "Intervalo", pause: true },
+  { day: "qui", start: "10:10", end: "10:30", title: "Apresentação cultural" },
+  { day: "qui", start: "10:30", end: "12:00", title: "Palestra de abertura", href: "/#palestras" },
+  { day: "qui", start: "13:00", end: "15:30", title: "Minicursos da tarde", href: "/#minicursos" },
+  { day: "qui", start: "13:45", end: "15:30", title: "Competição de jogos digitais", href: "/#e-sports" },
+  { day: "qui", start: "13:45", end: "15:30", title: "Desafio de programação 2" },
+  { day: "qui", start: "14:30", end: "14:50", title: "Intervalo", pause: true },
+  { day: "qui", start: "15:30", end: "15:40", title: "Intervalo", pause: true },
+  { day: "qui", start: "15:40", end: "16:30", title: "NADIC" },
+  { day: "qui", start: "16:30", end: "18:00", title: "Mesa-redonda", href: "/#palestras" },
+  { day: "sex", start: "07:30", end: "08:30", title: "Mesa-redonda", href: "/#palestras" },
+  { day: "sex", start: "08:30", end: "08:50", title: "Intervalo", pause: true },
+  { day: "sex", start: "08:50", end: "10:20", title: "Palestra", href: "/#palestras" },
+  { day: "sex", start: "10:20", end: "10:30", title: "Intervalo", pause: true },
+  { day: "sex", start: "10:30", end: "12:00", title: "Rodas de conversa", href: "/#palestras" },
+  { day: "sex", start: "13:00", end: "14:30", title: "Competição de jogos digitais: finais", href: "/#e-sports" },
+  { day: "sex", start: "14:30", end: "14:50", title: "Intervalo", pause: true },
+  { day: "sex", start: "14:50", end: "15:35", title: "Apresentação cultural" },
+  { day: "sex", start: "15:35", end: "16:20", title: "Entrega dos prêmios e encerramento" },
+  { day: "sex", start: "16:20", end: "18:00", title: "Confraternização" },
 ];
 
 export const talks: Talk[] = [
   {
     slug: "abertura",
-    format: "Palestra",
-    title: "O que um modelo de linguagem sabe, e o que ele só parece saber",
+    format: "Palestra de abertura",
+    title: "Tema a confirmar",
     day: "qui",
-    start: "13:00",
-    speaker: {
-      kind: "announced",
-      name: "Marina Albuquerque",
-      role: "Pesquisadora em processamento de linguagem natural",
-      photo: null,
-    },
-    placeholder: true,
-  },
-  {
-    slug: "ia-e-trabalho",
-    format: "Mesa-redonda",
-    title: "IA e trabalho no Alto Oeste: quem contrata, quem automatiza",
-    day: "qui",
-    start: "16:30",
-    speaker: {
-      kind: "tba",
-      note: "Egressos do IFRN Pau dos Ferros, nomes a confirmar",
-    },
-    placeholder: true,
-  },
-  {
-    slug: "visao-computacional",
-    format: "Palestra",
-    title: "Visão computacional na caatinga: contando o que a câmera vê",
-    day: "sex",
-    start: "07:30",
-    speaker: {
-      kind: "announced",
-      name: "Rafael Nogueira",
-      role: "Professor e pesquisador em visão computacional",
-      photo: null,
-    },
-    placeholder: true,
-  },
-  {
-    slug: "agentes",
-    format: "Palestra",
-    title: "Agentes de IA na prática: do prompt ao sistema que age sozinho",
-    day: "sex",
-    start: "09:20",
+    start: "10:30",
     speaker: { kind: "tba", note: "Palestrante a confirmar" },
     placeholder: true,
   },
   {
-    slug: "escola-tecnica",
+    slug: "mesa-redonda-quinta",
     format: "Mesa-redonda",
-    title: "Ensinar e aprender com IA na escola técnica",
-    day: "sex",
-    start: "10:30",
-    speaker: { kind: "tba", note: "Professores do IFRN, nomes a confirmar" },
+    title: "Tema a confirmar",
+    day: "qui",
+    start: "16:30",
+    speaker: { kind: "tba", note: "Participantes a confirmar" },
     placeholder: true,
   },
   {
-    slug: "vies",
-    format: "Palestra",
-    title: "Viés, dados e decisões: quem responde pelo que a máquina aprende",
+    slug: "mesa-redonda-sexta",
+    format: "Mesa-redonda",
+    title: "Tema a confirmar",
     day: "sex",
-    start: "13:00",
-    speaker: {
-      kind: "announced",
-      name: "Lívia Fernandes",
-      role: "Advogada e pesquisadora em direito digital",
-      photo: null,
-    },
+    start: "07:30",
+    speaker: { kind: "tba", note: "Participantes a confirmar" },
+    placeholder: true,
+  },
+  {
+    slug: "palestra-sexta",
+    format: "Palestra",
+    title: "Tema a confirmar",
+    day: "sex",
+    start: "08:50",
+    speaker: { kind: "tba", note: "Palestrante a confirmar" },
+    placeholder: true,
+  },
+  {
+    slug: "rodas-de-conversa",
+    format: "Rodas de conversa",
+    title: "Temas a confirmar",
+    day: "sex",
+    start: "10:30",
+    speaker: { kind: "tba", note: "Participantes a confirmar" },
     placeholder: true,
   },
 ];
 
 export const coursesInfo = {
-  when: "Quarta à tarde e quinta de manhã, 8 horas no total",
+  when: "Quinta, 3 de dezembro: sete minicursos de manhã e seis à tarde, cada um no seu laboratório ou sala.",
   how: "A vaga no minicurso é escolhida na inscrição do evento, pelo SUAP. As turmas são pequenas e as vagas acabam por ordem de inscrição.",
 };
 
-export const courses: Course[] = [
+export const coursePeriods: CoursePeriod[] = [
   {
-    slug: "python-para-ia",
-    title: "Python para IA, do zero ao primeiro modelo",
-    instructor: "Caio Medeiros",
-    level: "Iniciante",
-    summary:
-      "Variáveis, listas e funções até treinar um classificador simples com scikit-learn. Não precisa saber programar antes.",
-    seats: 30,
-    placeholder: true,
+    id: "manha",
+    label: "Manhã",
+    day: "qui",
+    start: "07:30",
+    end: "10:00",
+    pause: { start: "08:30", end: "08:50" },
   },
   {
-    slug: "agentes-llm",
-    title: "Agentes com modelos de linguagem",
-    instructor: "Beatriz Paiva",
-    level: "Intermediário",
-    summary:
-      "Um agente que consulta uma API, decide o próximo passo e explica o que fez. Em Python, com a API de um modelo de linguagem.",
-    seats: 25,
-    placeholder: true,
-  },
-  {
-    slug: "visao-opencv",
-    title: "Visão computacional com OpenCV",
-    instructor: "Diego Holanda",
-    level: "Intermediário",
-    summary:
-      "Detecção de objetos em fotos e vídeo com OpenCV e um modelo pré-treinado, rodando no seu próprio notebook.",
-    seats: 25,
-    placeholder: true,
-  },
-  {
-    slug: "rag",
-    title: "RAG: um assistente que leu os seus documentos",
-    instructor: "Larissa Queiroz",
-    level: "Intermediário",
-    summary:
-      "Indexe editais do IFRN em PDF e monte um assistente que responde citando a página de onde tirou a resposta.",
-    seats: 25,
-    placeholder: true,
-  },
-  {
-    slug: "interfaces-ia",
-    title: "Interfaces com IA usando Next.js",
-    instructor: "Mateus Fontes",
-    level: "Intermediário",
-    summary:
-      "Uma aplicação web que conversa com um modelo e mostra a resposta enquanto ela é gerada, com React e Next.js.",
-    seats: 30,
-    placeholder: true,
-  },
-  {
-    slug: "dados-abertos",
-    title: "Dados abertos do RN com pandas",
-    instructor: "Ana Clara Rêgo",
-    level: "Iniciante",
-    summary:
-      "Limpeza, gráficos e perguntas respondidas com dados públicos do Rio Grande do Norte, usando pandas.",
-    seats: 30,
-    placeholder: true,
+    id: "tarde",
+    label: "Tarde",
+    day: "qui",
+    start: "13:00",
+    end: "15:30",
+    pause: { start: "14:30", end: "14:50" },
   },
 ];
 
-export const COURSES = [
+export const COURSES: Course[] = [
   {
     slug: "desenvolvendo-jogos-com-game-maker",
     title: "Desenvolvendo jogos com Game Maker",
@@ -372,9 +278,11 @@ export const COURSES = [
     audience: "Pessoas interessadas em desenvolvimento de jogos.",
     content:
       "1. Entendendo os jogos de nave \n> 1.1 Origem\n> 1.2 Funcionamento\n> 1.3 Elementos do jogo\n> 1.4 Análise da estrutura\n\n2. Criação dos objetos\n> 2.1 Criação do jogador\n> 2.2 Criando o inimigo\n> 2.3 Criando o boss\n\n3. Criação do fluxo do jogo\n> 3.1 Implementando loop de gameplay\n> 3.2 Fazendo a montagem\n> 3.3 Criando o fluxo principal\n\n4. Polimento e publicação\n> 4.1 Polimento geral\n> 4.2 Compartilhamento\n> 4.3 Recebendo feedback e criando patches",
-    author: "Caio Enzo Bessa de Oliveira e Kellyson",
+    author: "Caio Enzo Bessa de Oliveira",
     picture: "/participants/caio-enzo.jpeg",
     vagas: 30,
+    period: "manha",
+    room: "Lab 56",
   },
   {
     slug: "design-e-arquitetura-de-sistemas-entendendo-como-sistemas-escalam-e-se-comunicam",
@@ -391,10 +299,12 @@ export const COURSES = [
     author: "João Manoel Fontes",
     picture: null,
     vagas: null,
+    period: "tarde",
+    room: "Lab 60",
   },
   {
     slug: "processamento-de-imagens-com-react-native-e-opencv",
-    title: "Processamento de imagens com React Native e OpenCV.",
+    title: "Processamento de imagens com React Native e OpenCV",
     detail:
       "Desenvolver uma aplicação completa, com mobile e back-end focados em processamento de imagens.",
     requirements:
@@ -405,6 +315,8 @@ export const COURSES = [
     author: "Adryan Eryk de Oliveira Leite",
     picture: "/participants/adryan-erik.JPG",
     vagas: 40,
+    period: "tarde",
+    room: "Lab 65",
   },
   {
     slug: "git-e-github-sem-medo-do-primeiro-commit-ao-primeiro-conflito",
@@ -420,17 +332,8 @@ export const COURSES = [
     author: "Tallys Cesar Gurgel Batista",
     picture: null,
     vagas: null,
-  },
-  {
-    slug: "ia-para-programar",
-    title: "IA para programar",
-    detail: null,
-    requirements: null,
-    audience: null,
-    content: null,
-    author: "Heitor",
-    picture: null,
-    vagas: null,
+    period: "tarde",
+    room: "Lab 58",
   },
   {
     slug: "desenvolvimento-de-aplicacoes-modernas-com-react",
@@ -446,6 +349,8 @@ export const COURSES = [
     author: "Lucas Nunes",
     picture: "/participants/lucas-nunes.png",
     vagas: null,
+    period: "manha",
+    room: "Lab 57",
   },
   {
     slug: "database-engineering-na-pratica-problemas-reais-de-bancos-de-dados-em-producao",
@@ -462,6 +367,8 @@ export const COURSES = [
     author: "Pedro Henrique Carvalho Sousa",
     picture: "/participants/pedro-henrique.jpeg",
     vagas: null,
+    period: "manha",
+    room: "Lab 58",
   },
   {
     slug: "como-organizar-suas-tarefas-com-o-notion",
@@ -477,12 +384,101 @@ export const COURSES = [
     author: "Klaywin Ryan Aquino Dias",
     picture: null,
     vagas: null,
+    period: "manha",
+    room: "Sala",
+  },
+  {
+    slug: "docker-na-pratica",
+    title:
+      "Docker na prática: do “na minha máquina funciona” ao container rodando em qualquer lugar",
+    detail: null,
+    requirements: null,
+    audience: null,
+    content: null,
+    author: "Pedro Heitor Rêgo Ferreira",
+    picture: null,
+    vagas: null,
+    period: "manha",
+    room: "Lab 65",
+  },
+  {
+    slug: "deploy-gratuito",
+    title:
+      "Deploy gratuito: coloque seus projetos pessoais no ar sem gastar 1,00 com infraestrutura",
+    detail: null,
+    requirements: null,
+    audience: null,
+    content: null,
+    author: "Samuel Franklin de Oliveira Lopes",
+    picture: null,
+    vagas: null,
+    period: "manha",
+    room: "Lab 60",
+  },
+  {
+    slug: "apis-com-spring-mvc",
+    title:
+      "APIs com Spring MVC para quem tem medo de Java",
+    detail: null,
+    requirements: null,
+    audience: null,
+    content: null,
+    author: "Hian Sebasthian Queiroz Silva",
+    picture: null,
+    vagas: null,
+    period: "manha",
+    room: "Sala",
+  },
+  {
+    slug: "testes-e2e-com-playwright",
+    title:
+      "Automação de Testes End-to-End (E2E) na Prática com Playwright: Garantindo a Qualidade de Aplicações Web Modernas",
+    detail: null,
+    requirements: null,
+    audience: null,
+    content: null,
+    author: "Heitor Queiroga Duarte",
+    picture: null,
+    vagas: null,
+    period: "tarde",
+    room: "Sala",
+  },
+  {
+    slug: "specification-driven-development",
+    title:
+      "Do Prompt ao Software: Specification-Driven Development na Era da IA",
+    detail: null,
+    requirements: null,
+    audience: null,
+    content: null,
+    author: "Jilcimar da Silva Fernandes",
+    picture: null,
+    vagas: null,
+    period: "tarde",
+    room: "Lab 57",
+  },
+  {
+    slug: "agentes-de-ia",
+    title: "Entendendo e programando com agentes de IA",
+    detail:
+      "Uma oficina introdutória e prática sobre inteligência artificial no desenvolvimento de software. Primeiro, como funcionam os modelos de linguagem e os agentes de IA, o que eles mudam na forma de programar, onde erram e o que é exagero do mercado. Depois, mão na massa: os participantes usam agentes de programação para planejar, construir e modificar um pequeno projeto web, validando em cada etapa o código que o agente escreve.",
+    requirements:
+      "Conhecimentos básicos de lógica de programação.\nNoções de HTML, CSS e JavaScript.\nNão é preciso ter usado agentes de IA antes.",
+    audience:
+      "Estudantes e iniciantes em programação que já usam ou têm curiosidade sobre ferramentas de IA e querem entender como os agentes funcionam e como programar com eles sem perder o controle do código.",
+    content:
+      "1. Como funcionam os modelos de linguagem: tokens, contexto e por que eles erram.\n2. De chatbot a agente: ferramentas, ciclo de decisão e autonomia.\n3. O que muda na programação: impactos, limitações, riscos e expectativas do mercado.\n4. Agentes de programação na prática: planejar a tarefa e escrever boas instruções.\n5. Projeto prático: construir e modificar uma pequena aplicação web com um agente.\n6. Validação: revisar, testar e corrigir o código gerado.",
+    author: "Kellyson Raphael",
+    picture: "/participants/kellyson-raphael.jpg",
+    vagas: null,
+    period: "tarde",
+    room: "Lab 56",
   },
 ];
 
 export const esports = {
   intro:
-    "Cinco campeonatos em dois dias: classificatórias na quarta à tarde e finais na quinta de manhã.",
+    "Cinco campeonatos em dois dias: classificatórias na quinta à tarde e finais na sexta à tarde.",
 };
 
 export const games: Game[] = [

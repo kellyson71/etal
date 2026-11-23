@@ -2,11 +2,11 @@
 
 ## Brief
 
-- **Subject:** VIII ETAL, Encontro de Tecnologia do Alto Oeste Potiguar. IFRN Campus Pau dos Ferros, 2 a 4 de dezembro de 2026 (quarta a sexta). Provisional theme: inteligência artificial.
+- **Subject:** VIII ETAL, Encontro de Tecnologia do Alto Oeste Potiguar. IFRN Campus Pau dos Ferros, 3 e 4 de dezembro de 2026 (quinta e sexta). Provisional theme: inteligência artificial.
 - **Audience:** technical high school and college students from the Alto Oeste, plus teachers, researchers and professionals. Mostly on phones, often on mobile data.
 - **Job:** in under 3 seconds say what it is, when and where, then lead to registration (SUAP). After that: schedule, talks, minicursos, e-sports.
 - **Assets:** the ETAL mark (`src/components/Logo.tsx`): the "EtaL" lettering of past editions rebuilt as LED pixels on the IF grid, its three red dots fired, "2026" on a finer module beside the L. Inline SVG, lit in the LED colour of the field it sits on.
-- **Constraints:** domain etal.nadic.com.br on Vercel. All 2026 content is mocked in `src/data/site.ts`. pt-BR.
+- **Constraints:** domain etal.nadic.com.br on Vercel. All content lives in `src/data/site.ts`; the schedule and the minicursos follow the organizers' final schedule, the rest is still partly mocked. pt-BR.
 
 ## History
 
@@ -38,12 +38,12 @@ Idea:        ETAL 2026 is an LED panel made of the IF grid: every square is a pi
              dot on black, a lit black cell on green.
 Metaphor:    Stadium scoreboard / festival LED panel, built with the IF module (squares, one circle).
 Signature:   Hero: on black, the mark, the theme in big Mona Sans, when and where in one line and the
-             way in (the schedule, registration); beside them the three days, whose numbers are the
+             way in (the schedule, registration); beside them the days, whose numbers are the
              hero's one LED and fire with their link. Two soft green lights drift behind it all.
 Emotion:     A panel switching on in the dark. Loud, bright, playful, IFRN green on black.
 Motion verb: light up. Snap on (0.12 to 0.18 s), slow decay (about 1 s). Numbers flip like a scoreboard.
 Screenshot:  Black, the ETAL mark over "Inteligência Artificial" in big white type on the left; on the
-             right the three days with lime LED numbers 2, 3, 4; a green glow in the top corner.
+             right the two days with lime LED numbers 3 and 4; a green glow in the top corner.
 ```
 
 The concept beyond the hero:
@@ -51,7 +51,8 @@ The concept beyond the hero:
 - **Color fields as screens of the panel**, alternating: green (campo), black (noite), lime (lima). The border between two fields is a row of pixels, not a straight line.
 - **Countdown:** a bar above the header with the time left to the credenciamento, dd:hh:mm:ss on flip tiles (dark tiles, lime figures in Mona Sans). It hides once the event begins.
 - **Ticker:** one black LED strip scrolling the event info, a plain marquee at a steady pace (the scroll and the pointer leave it alone).
-- **Programação is a scoreboard:** day tabs; switching days flips the times like an LED board.
+- **Programação is a scoreboard:** day tabs; switching days flips the times like an LED board. Breaks are dimmed rows; sessions detailed further down link to their section.
+- **Minicursos by period:** each period opens with a black strip, the time slot in lime LED (the scoreboard again); under it the minicursos that run at the same time, each with its lab as a lit tag.
 - **Talks:** a lineup, the people first: the panel shows each speaker in lime through its square dots; as the card crosses the reading line it fires, the photo comes in colour and the dots turn round. Square panels. No photo yet: the panel is a green screen with the initials in ink, lime when the card fires; before a name is out it stays half on, "a confirmar".
 - **Local is a real map on the panel:** Pau dos Ferros from OpenStreetMap, rasterized once to LEDs (`src/data/venue-map.ts`): roads lit, streets dimmer, water in big dark green squares, the campus fired red on the BR-405 south of the centre, with a ring pulsing from it. Static SVG, no map library or tiles; "Abrir no mapa" is the interactive one. The plot carries the OpenStreetMap credit (ODbL).
 - **Transition:** IF squares fill the screen from where you clicked; on the new page they fire (turn round) and go out.

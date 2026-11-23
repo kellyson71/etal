@@ -2,7 +2,7 @@ import { days, site, type Registration } from '@/data/site';
 import { Logo } from './Logo';
 import { RegistrationCta } from './RegistrationCta';
 
-// The first screen: what, when and where on the left; the three days on the right, each leading to the
+// The first screen: what, when and where on the left; the days on the right, each leading to the
 // schedule. Behind them two soft green lights drift. LED is kept to the mark and the day numbers.
 export function Hero() {
   return (
@@ -25,7 +25,7 @@ export function Hero() {
         </div>
       </div>
 
-      <ol className="hero__days" aria-label="Os três dias">
+      <ol className="hero__days" aria-label="Os dias do evento">
         {days.map((day) => (
           <li key={day.id}>
             <a className="hero__day" href="#programacao">

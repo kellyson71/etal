@@ -510,7 +510,7 @@ a.cta--outline:hover .cta__dot {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='13.6' y='13.6' width='4.8' height='4.8' fill='%237dd13f' fill-opacity='0.22'/%3E%3C/svg%3E");
 }
 
-/* ── Hero: what, when and where, and the three days ───────────────────────────────── */
+/* ── Hero: what, when and where, and the days ─────────────────────────────────────── */
 .hero {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -848,6 +848,24 @@ a.cta--outline:hover .cta__dot {
   font-weight: 560;
   letter-spacing: -0.01em;
 }
+.board__link {
+  text-decoration: underline;
+  text-decoration-color: var(--led-dim);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 0.2s;
+}
+.board__link:hover,
+.board__link:focus-visible {
+  text-decoration-color: var(--lime);
+}
+.board__row--pause {
+  padding-block: 0.55rem;
+}
+.board__row--pause :is(.board__time, .board__title) {
+  font-size: var(--t-s);
+  color: var(--noite-muted);
+}
 
 /* ── Talks (black): a lineup, the people first ────────────────────────────────────── */
 .talks {
@@ -995,6 +1013,37 @@ a.cta--outline:hover .cta__dot {
 .courses__list {
   border-bottom: 2px solid var(--ink);
 }
+.courses__period + .courses__period {
+  margin-top: calc(var(--u) * 6);
+}
+.courses__slot {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.5rem calc(var(--gutter) * 1.25);
+  padding: calc(var(--u) * 2) 1rem;
+  background: var(--noite);
+  color: var(--noite-ink);
+}
+.courses__slot-name {
+  font-size: var(--t-l);
+  line-height: 1;
+  color: var(--lime);
+}
+.courses__slot-time {
+  display: flex;
+  gap: 0.35em;
+  font-size: var(--t-l);
+  line-height: 1;
+  color: var(--lime);
+}
+.courses__slot-note {
+  justify-self: end;
+  font-size: var(--t-s);
+  font-weight: 560;
+  color: var(--noite-muted);
+  text-align: right;
+}
 .course {
   border-top: 2px solid var(--ink);
   transition: background-color 0.25s;
@@ -1074,6 +1123,13 @@ a.cta--outline:hover .cta__dot {
   padding: 0.15rem 0.5rem;
   font-size: var(--t-xs);
   font-weight: 650;
+}
+.course__room {
+  padding: 0.2rem 0.55rem;
+  background: var(--ink);
+  color: var(--lime);
+  font-size: var(--t-s);
+  line-height: 1.2;
 }
 .course__summary:focus-visible {
   outline: 2px solid currentColor;
@@ -1487,6 +1543,18 @@ a.cta--outline:hover .cta__dot {
   }
 }
 @media (max-width: 767px) {
+  .courses__slot {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding-inline: 0.9rem;
+  }
+  .courses__slot-time {
+    justify-self: end;
+  }
+  .courses__slot-note {
+    grid-column: 1 / -1;
+    justify-self: start;
+    text-align: left;
+  }
   .countdown__note {
     display: none;
   }
