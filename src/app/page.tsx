@@ -7,6 +7,7 @@ import { Schedule } from '@/components/Schedule';
 import { Talks } from '@/components/Talks';
 import { Ticker } from '@/components/Ticker';
 import { Venue } from '@/components/Venue';
+import { PageHydrated } from '@/engine/next';
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Esports />
       <Venue />
       <Finale />
+      <PageHydrated />
     </>
   );
 }

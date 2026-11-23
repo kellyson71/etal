@@ -1,11 +1,24 @@
 'use client';
 // Next.js App Router adapter. Render <Engine setup={…} /> once, as the LAST child of <body> in the
-// root layout (React runs child effects first, so page components register before the engine boots).
+// root layout, and <PageHydrated /> at the end of every page.
 // Internal links (plain <a> or next/link) get the leave → push → enter transition automatically.
 // Opt a link out with data-no-transition. Back/forward re-inits the page without the curtain.
 import { useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { boot, cleanup, enter, leave, onPage, type PageFn } from './index';
+
+let hydrated = false;
+let onHydrated: (() => void) | null = null;
+
+export function PageHydrated() {
+  useEffect(() => {
+    if (hydrated) return;
+    hydrated = true;
+    onHydrated?.();
+    onHydrated = null;
+  }, []);
+  return null;
+}
 
 export function Engine({ setup }: { setup?: () => void }) {
   const router = useRouter();
@@ -13,8 +26,11 @@ export function Engine({ setup }: { setup?: () => void }) {
   const mode = useRef<'idle' | 'push' | 'pop'>('idle');
   const first = useRef(true);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { boot(setup); }, []);
+  useEffect(() => {
+    if (hydrated) boot(setup);
+    else onHydrated = () => boot(setup);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const onClick = async (e: MouseEvent) => {
