@@ -54,7 +54,7 @@ export function Talks() {
         <h2 className="section-title led" id="palestras-title" data-split="lines">
           Palestras
         </h2>
-        <p className="section-note">Palestras e mesas-redondas, do modelo de linguagem ao mercado de trabalho no Alto Oeste.</p>
+        <p className="section-note">Palestras, mesas-redondas e rodas de conversa. Os temas e os nomes saem em breve.</p>
       </div>
       <ol className="talks__list">
         {talks.map((talk) => {

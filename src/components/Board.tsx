@@ -29,7 +29,7 @@ function flip(panel: HTMLElement) {
 }
 
 export function Board() {
-  const [active, setActive] = useState<DayId>(days[0]?.id ?? 'qua');
+  const [active, setActive] = useState<DayId>(days[0]?.id ?? 'qui');
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const panels = useRef<Partial<Record<DayId, HTMLDivElement | null>>>({});
   const first = useRef(true);
@@ -93,7 +93,7 @@ export function Board() {
             {schedule
               .filter((s) => s.day === day.id)
               .map((s) => (
-                <li className="board__row" key={`${s.start}-${s.title}`}>
+                <li className={`board__row${s.pause ? ' board__row--pause' : ''}`} key={`${s.start}-${s.title}`}>
                   <time className="board__time led" dateTime={`${day.isoDate}T${s.start}`} data-flip={s.start}>
                     {s.start}
                   </time>
@@ -101,7 +101,13 @@ export function Board() {
                     <span className="sr-only">até </span>
                     {s.end}
                   </time>
-                  <span className="board__title">{s.title}</span>
+                  {s.href ? (
+                    <a className="board__title board__link" href={s.href}>
+                      {s.title}
+                    </a>
+                  ) : (
+                    <span className="board__title">{s.title}</span>
+                  )}
                 </li>
               ))}
           </ol>
