@@ -1,4 +1,5 @@
 import { site, type Registration } from '@/data/site';
+import { BadgeFace } from './BadgeFace';
 import { RegistrationCta } from './RegistrationCta';
 
 const copy: Record<Registration['status'], { title: [string, string]; lead: string }> = {
@@ -18,13 +19,36 @@ export function Finale() {
           <span className="finale__cursor" aria-hidden="true" />
         </span>
       </h2>
-      <div className="finale__row">
-        <p className="finale__lead">{lead}</p>
-        <div className="finale__act">
-          <RegistrationCta registration={site.registration} />
-          <p className="finale__entry">{site.entry}</p>
-        </div>
-      </div>
+      <ol className="finale__steps">
+        <li className="finale__step">
+          <span className="finale__num led" aria-hidden="true">
+            1
+          </span>
+          <p className="finale__lead">{lead}</p>
+          <div className="finale__act">
+            <RegistrationCta registration={site.registration} />
+            <p className="finale__entry">{site.entry}</p>
+          </div>
+        </li>
+        <li className="finale__step finale__step--app">
+          <span className="finale__num led" aria-hidden="true">
+            2
+          </span>
+          <p className="finale__lead">Entre no {site.app.name}: é nele que fica o seu crachá, e é por ele que você faz o credenciamento no dia.</p>
+          <div className="finale__act">
+            <a className="cta cta--open" href={site.app.url} target="_blank" rel="noopener noreferrer">
+              <span className="cta__dot" aria-hidden="true" />
+              <span>Abrir o {site.app.name}</span>
+              <span className="sr-only"> (abre em nova aba)</span>
+            </a>
+          </div>
+          <div className="finale__badge" aria-hidden="true">
+            <div className="badge">
+              <BadgeFace id="finale-qr" />
+            </div>
+          </div>
+        </li>
+      </ol>
     </section>
   );
 }

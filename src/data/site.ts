@@ -122,6 +122,11 @@ export const site = {
     mapUrl:
       "https://www.google.com/maps/search/?api=1&query=IFRN%20Campus%20Pau%20dos%20Ferros",
   },
+  app: {
+    name: "ETAL Connect",
+    url: "https://etal-app.nadic.com.br/",
+    host: "etal-app.nadic.com.br",
+  },
   organizers: ["IFRN Campus Pau dos Ferros", "NADIC"],
   credit: {
     handle: "@ruangustavo",
@@ -144,6 +149,7 @@ export const nav = [
   { label: "Palestras", href: "/#palestras" },
   { label: "Minicursos", href: "/#minicursos" },
   { label: "E-sports", href: "/#e-sports" },
+  { label: "App", href: "/#app" },
 ];
 
 export const about = {
