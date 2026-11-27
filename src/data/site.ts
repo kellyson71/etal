@@ -2,7 +2,6 @@
 //
 // MOCK DATA (everything marked `placeholder: true`, plus the following assumptions):
 // - Theme: "Inteligência Artificial" is the provisional theme; title and subtitle are not decided yet.
-// - Registration: SUAP link for 2026 does not exist yet, so the status is 'soon'.
 // - E-sports: the 2025 games, reused until the 2026 list is confirmed.
 // - Free entry and open to the public: true in 2025, assumed for 2026.
 // - NADIC as organizer: assumed from the domain (etal.nadic.com.br).
@@ -82,7 +81,7 @@ export type Game = {
 
 export type PastEdition = { year: number; label: string; note: string };
 
-const registration: Registration = { status: "soon" };
+const registration: Registration = { status: "open", url: "https://suap.ifrn.edu.br/eventos/inscricao/3/10301/" };
 
 export const site = {
   name: "ETAL 2026",
@@ -128,11 +127,10 @@ export const site = {
     host: "etal-app.nadic.com.br",
   },
   organizers: ["IFRN Campus Pau dos Ferros", "NADIC"],
-  credit: {
-    handle: "@ruangustavo",
-    href: "https://www.linkedin.com/in/ruan-gustavo/",
-    avatar: "/credit/ruangustavo.png",
-  },
+  credits: [
+    { handle: "@ruangustavo", href: "https://www.linkedin.com/in/ruan-gustavo/", avatar: "/credit/ruangustavo.png" },
+    { handle: "@kellyson71", href: "https://github.com/kellyson71", avatar: "/credit/kellyson71.jpg" },
+  ],
 };
 
 // The LED strip under the hero. Decorative: every item also appears as real text elsewhere.

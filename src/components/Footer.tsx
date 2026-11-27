@@ -36,10 +36,15 @@ export function Footer() {
         <p>ETAL 2026, {site.fullName}</p>
         <p>
           Desenvolvido por{' '}
-          <a className="footer__credit" href={site.credit.href} target="_blank" rel="noopener noreferrer">
-            <Image className="footer__avatar" src={site.credit.avatar} alt="" width={28} height={28} />
-            {site.credit.handle}
-          </a>
+          {site.credits.map((credit, i) => (
+            <span className="footer__who" key={credit.handle}>
+              {i > 0 && ' e '}
+              <a className="footer__credit" href={credit.href} target="_blank" rel="noopener noreferrer">
+                <Image className="footer__avatar" src={credit.avatar} alt="" width={28} height={28} />
+                {credit.handle}
+              </a>
+            </span>
+          ))}
           .
         </p>
       </div>

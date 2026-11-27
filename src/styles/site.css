@@ -2016,6 +2016,9 @@ a.cta--outline:hover .cta__dot {
   border-top: 1px solid var(--c-line);
   color: var(--noite-muted);
 }
+.footer__who {
+  white-space: nowrap;
+}
 .footer__credit {
   display: inline-flex;
   align-items: center;
