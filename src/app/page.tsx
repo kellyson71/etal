@@ -1,4 +1,6 @@
 import { About } from '@/components/About';
+import { AppConnect } from '@/components/AppConnect';
+import { AppDock } from '@/components/AppDock';
 import { Courses } from '@/components/Courses';
 import { Esports } from '@/components/Esports';
 import { Finale } from '@/components/Finale';
@@ -14,6 +16,7 @@ export default function Home() {
     <>
       <Hero />
       <Ticker />
+      <AppConnect />
       <About />
       <Schedule />
       <Talks />
@@ -21,6 +24,7 @@ export default function Home() {
       <Esports />
       <Venue />
       <Finale />
+      <AppDock />
       <PageHydrated />
     </>
   );

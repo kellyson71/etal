@@ -51,6 +51,7 @@ The concept beyond the hero:
 - **Color fields as screens of the panel**, alternating: green (campo), black (noite), lime (lima). The border between two fields is a row of pixels, not a straight line.
 - **Countdown:** a bar above the header with the time left to the credenciamento, dd:hh:mm:ss on flip tiles (dark tiles, lime figures in Mona Sans). It hides once the event begins.
 - **Ticker:** one black LED strip scrolling the event info, a plain marquee at a steady pace (the scroll and the pointer leave it alone).
+- **The app (ETAL Connect):** under the ticker, the app's badge hangs from it on a lime lanyard ("ETAL · CONNECT"). The card is the app's own (white, the NADIC blue head with its three hexagons) so a student knows it when the app opens; its QR and its strip are the panel's LEDs. When the section comes in, the badge drops on its cord and swings, then the QR lights row by row like the scoreboard: lime cells, the code in the dark ones, a real QR of the app (`src/data/app-qr.ts`). The badge swings with the scroll; pulled down and released, it opens the app, as on the app's own sign-in screen; until someone touches it, it gives a small tug now and then to show it can be pulled (on phones only a downward drag pulls; an upward one still scrolls). Behind the badge, a phone (an Android flagship, no brand) shows the app's real screens with the 2026 schedule, one after another: início, programação, mapa, crachá (`public/app/`, captured from the app with its 2026 seed). Beside them, the copy says plainly that the app is how you take part: sign in, get the credenciamento by reading the reception's QR, find your room; and the button, the way in for everyone. In the inscrição, the app is step 2, after the SUAP, with the badge small, hanging from the rule. On phones, once the hero is gone, a pill at the bottom opens the app; it hides over the hero, the app section, the inscrição and the footer.
 - **Programação is a scoreboard:** day tabs; switching days flips the times like an LED board. Breaks are dimmed rows; sessions detailed further down link to their section.
 - **Minicursos by period:** each period opens with a black strip, the time slot in lime LED (the scoreboard again); under it the minicursos that run at the same time, each with its lab as a lit tag.
 - **Talks:** a lineup, the people first: the panel shows each speaker in lime through its square dots; as the card crosses the reading line it fires, the photo comes in colour and the dots turn round. Square panels. No photo yet: the panel is a green screen with the initials in ink, lime when the card fires; before a name is out it stays half on, "a confirmar".
@@ -80,7 +81,7 @@ No secondary grey text on green or lime: hierarchy there comes from size and wei
 ## Grid & rhythm
 
 - 12 columns, fluid gutter; strong lines at col 1, 5 and 9. Phones: 4 columns.
-- Fields: countdown (black bar) → hero (black) → ticker (black strip) → sobre (green) → programação + palestras (black) → minicursos (green) → e-sports (lime) → local (black) → inscrição (green) → footer (black).
+- Fields: countdown (black bar) → hero (black) → ticker (black strip) → app (black) → sobre (green) → programação + palestras (black) → minicursos (green) → e-sports (lime) → local (black) → inscrição (green) → footer (black).
 
 ## Motion
 
