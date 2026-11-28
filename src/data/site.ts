@@ -2,12 +2,11 @@
 //
 // MOCK DATA (everything marked `placeholder: true`, plus the following assumptions):
 // - Theme: "Inteligência Artificial" is the provisional theme; title and subtitle are not decided yet.
-// - E-sports: the 2025 games, reused until the 2026 list is confirmed.
 // - Free entry and open to the public: true in 2025, assumed for 2026.
 // - NADIC as organizer: assumed from the domain (etal.nadic.com.br).
 //
 // Real facts (verified): first edition in 2015; the IFRN Pau dos Ferros address and coordinates;
-// the themes of 2024 and 2025.
+// the themes of 2024 and 2025; the e-sports games, sign-up form and rules (the organizers' regulations, Nov 2026).
 
 export type Registration =
   | { status: "soon" }
@@ -72,11 +71,24 @@ export type Course = {
   room: string;
 };
 
+export type GamePhase = {
+  day: DayId | null; // null: the regulation does not say which day
+  name: string;
+  detail: string;
+};
+
 export type Game = {
   slug: string;
   name: string;
   seats: number;
-  placeholder: true;
+  full?: true; // every seat taken
+  mode: string;
+  format: string;
+  days: string;
+  ask: string; // what the form asks for this game
+  phases: GamePhase[];
+  watch: string[]; // what can cost a player the game: shown first, highlighted
+  rules: string[];
 };
 
 export type PastEdition = { year: number; label: string; note: string };
@@ -480,40 +492,200 @@ export const COURSES: Course[] = [
 ];
 
 export const esports = {
-  intro:
-    "Cinco campeonatos em dois dias: classificatórias na quinta à tarde e finais na sexta à tarde.",
+  intro: "Sete campeonatos em dois dias: classificatórias na quinta à tarde, finais na sexta.",
+  form: {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSfKQr_OtfQr6-2hNgA7OK0tOYAIZIYu0__-57aGoLb5kJizCw/viewform",
+    opens: "2026-11-27",
+    closes: "2026-11-30",
+    label: "27 a 30 de novembro",
+  },
+  rulesUrl: "https://drive.google.com/drive/folders/1BWTYCX_pRZR-p4L5skyRcsXJY8gPKtwb?usp=sharing",
+  maxGames: 2,
+  steps: [
+    { title: "Inscrito no ETAL", text: "O campeonato é para quem já fez a inscrição no evento, pelo SUAP." },
+    { title: "Formulário dos jogos", text: "A vaga no jogo é pedida à parte: nome, matrícula, o apelido na chave, e-mail escolar e WhatsApp." },
+    { title: "Até 3 opções, em ordem", text: "A 3ª é reserva. Cada pessoa joga no máximo 2 jogos diferentes." },
+    { title: "Por ordem de inscrição", text: "As vagas enchem na ordem de chegada. Se alguém desiste, entra o próximo da lista." },
+    { title: "Sorteio na véspera", text: "Chaves e horários saem nas redes do evento no dia anterior às partidas." },
+  ],
+  priority: {
+    text: "Quando duas opções caem no mesmo horário, fica a de maior prioridade; as que não batem com ela continuam valendo.",
+    example: [
+      { pick: "1ª", game: "Clash Royale", kept: true, note: "Vale" },
+      { pick: "2ª", game: "Mortal Kombat 1", kept: false, note: "Mesmo horário da 1ª: sai" },
+      { pick: "3ª", game: "Guitar Hero III", kept: true, note: "Outro horário: vale" },
+    ],
+  },
+  conduct: [
+    "Pontualidade, respeito e nada de comportamento antiesportivo (insultos, trapaça, provocação).",
+    "O que o regulamento não prevê, a organização decide.",
+  ],
 };
 
 export const games: Game[] = [
   {
-    slug: "mortal-kombat-11",
-    name: "Mortal Kombat 11",
-    seats: 16,
-    placeholder: true,
-  },
-  {
-    slug: "ea-fc",
-    name: "EA Sports FC",
-    seats: 16,
-    placeholder: true,
-  },
-  {
     slug: "clash-royale",
     name: "Clash Royale",
     seats: 32,
-    placeholder: true,
+    mode: "1 × 1",
+    format: "Mata-mata",
+    days: "Quinta e sexta",
+    ask: "Nome, matrícula e o apelido na chave. A conta precisa ter 32 cartas ou mais liberadas.",
+    phases: [
+      { day: "qui", name: "16 avos, oitavas e quartas", detail: "32 jogadores em eliminação direta: quem perde sai." },
+      { day: "sex", name: "Semifinais, final e 3º lugar", detail: "Os 4 que passaram das quartas." },
+    ],
+    watch: [
+      "Cartas evoluídas são proibidas.",
+      "Vale o deck de duelo. Ele não muda durante o dia; só dá para trocar de um dia para o outro.",
+      "A conta precisa ter pelo menos 32 cartas liberadas.",
+    ],
+    rules: [
+      "Cada partida tem até 5 minutos: 3 de tempo normal e 2 de morte súbita.",
+      "Se nenhuma torre cair até o fim, vence quem deixou a torre do adversário com menos vida.",
+      "3 minutos de intervalo entre as partidas para ajustar o deck.",
+    ],
   },
   {
-    slug: "guitar-hero-3",
+    slug: "mortal-kombat",
+    name: "Mortal Kombat 1",
+    seats: 16,
+    mode: "1 × 1",
+    format: "Mata-mata",
+    days: "Quinta e sexta",
+    ask: "Nome, matrícula, o apelido na chave e o personagem que você vai usar no campeonato.",
+    phases: [
+      { day: "qui", name: "Oitavas e quartas", detail: "Melhor de 3 rounds: quem vence 2 avança." },
+      { day: "sex", name: "Semifinais, final e 3º lugar", detail: "Melhor de 3 lutas, cada uma com até 3 rounds: quem vence 2 lutas avança." },
+    ],
+    watch: [
+      "Fatality é proibido: quem fizer é desclassificado na hora.",
+      "O personagem é o do formulário, no campeonato inteiro. Não dá para trocar.",
+    ],
+    rules: [
+      "Até 3 minutos de luta por partida.",
+      "5 minutos de intervalo entre as partidas para a troca de jogadores e a escolha dos personagens.",
+    ],
+  },
+  {
+    slug: "fifa",
+    name: "FIFA",
+    seats: 16,
+    full: true,
+    mode: "1 × 1",
+    format: "Mata-mata",
+    days: "Quinta e sexta",
+    ask: "Nome, matrícula, o apelido na chave e o time (só clubes).",
+    phases: [
+      { day: "qui", name: "Oitavas e quartas", detail: "Jogos de 2 tempos de 5 minutos." },
+      { day: "sex", name: "Semifinais, final e 3º lugar", detail: "Jogos de 2 tempos de 8 minutos." },
+    ],
+    watch: [
+      "Só clubes: seleções e times especiais não valem.",
+      "O time da inscrição vale para todas as partidas, sem troca.",
+      "Empate no mata-mata vai para os pênaltis.",
+    ],
+    rules: ["6 minutos de intervalo entre as partidas para a troca de jogadores e ajustes."],
+  },
+  {
+    slug: "guitar-hero",
     name: "Guitar Hero III",
     seats: 16,
-    placeholder: true,
+    mode: "1 × 1",
+    format: "Mata-mata",
+    days: "Quinta e sexta",
+    ask: "Nome, matrícula e o apelido na chave.",
+    phases: [
+      { day: "qui", name: "Oitavas", detail: "Uma música do jogo, combinada entre monitores e jogadores, no medium." },
+      { day: "qui", name: "Quartas", detail: "Lay Down (Priestess), no medium." },
+      { day: "sex", name: "Semifinais", detail: "Cliffs of Dover (Eric Johnson), no hard." },
+      { day: "sex", name: "Final", detail: "Even Flow (Pearl Jam), no expert." },
+      { day: "sex", name: "3º lugar", detail: "One (Metallica), no hard." },
+    ],
+    watch: [
+      "Não completou a música, está eliminado.",
+      "As músicas das quartas em diante já estão definidas: dá para treinar.",
+    ],
+    rules: [
+      "Os dois jogadores tocam a mesma música; a partida dura o tempo dela.",
+      "Empate: se a música não estiver no expert, a dificuldade sobe um nível; se já estiver, outra música no expert decide.",
+      "Se ninguém consegue tocar, a dificuldade pode baixar, mas não abaixo do medium nas oitavas, nas quartas e no 3º lugar. Na semifinal e na final, só com a decisão dos coordenadores.",
+      "5 minutos de intervalo entre as partidas.",
+    ],
   },
   {
-    slug: "naruto-storm-4",
-    name: "Naruto Ultimate Ninja Storm 4",
+    slug: "mario-kart",
+    name: "Mario Kart 8 Deluxe",
     seats: 16,
-    placeholder: true,
+    mode: "4 por corrida",
+    format: "Grupos e copa final",
+    days: "Um dia",
+    ask: "Nome, matrícula e o apelido na chave.",
+    phases: [
+      { day: null, name: "Fase de grupos", detail: "4 grupos de 4. Cada grupo corre uma copa (4 pistas) e só o 1º em pontos passa." },
+      { day: null, name: "Copa final", detail: "Os 4 vencedores correm mais uma copa. Quem somar mais pontos é campeão." },
+    ],
+    watch: [
+      "150cc, com os itens no padrão da corrida.",
+      "Personagem, kart, rodas e planador são livres, mas só mudam entre uma copa e outra.",
+    ],
+    rules: [
+      "Pontuação padrão do jogo; em corrida de 4 jogadores, valem as posições de 1º a 4º.",
+      "Empate na copa: o próprio jogo decide.",
+      "As copas de cada grupo e da final saem junto com o sorteio.",
+      "Proibida qualquer manipulação externa (controle, conexão) que afete a disputa.",
+    ],
+  },
+  {
+    slug: "bomberman",
+    name: "Super Bomberman R",
+    seats: 32,
+    mode: "8 por partida",
+    format: "Todos contra todos",
+    days: "Quinta e sexta",
+    ask: "Nome, matrícula e o apelido na chave.",
+    phases: [
+      { day: null, name: "Classificatória", detail: "4 partidas com 8 jogadores. Os 4 primeiros de cada uma passam." },
+      { day: null, name: "Semifinais", detail: "2 partidas com 8 jogadores. Os 4 primeiros de cada uma passam." },
+      { day: null, name: "Final", detail: "Uma partida com os 8. Quem sobrar por último é o campeão." },
+    ],
+    watch: [
+      "Só com os Joy-Con da organização: controle próprio não entra.",
+      "Chamou, você tem 3 minutos para chegar. Depois disso, fica em último naquela partida.",
+      "Pausar a partida sem autorização pode desclassificar.",
+    ],
+    rules: [
+      "Modo Batalha Standard, todos contra todos, com rounds de 3 minutos.",
+      "Revenge Carts ligado: quem é eliminado ataca de fora da arena e, se derrubar alguém, volta para a partida.",
+      "Morte súbita ligada: quando o tempo acaba, blocos caem das bordas para o centro.",
+      "A colocação segue a ordem de eliminação. Quem cai junto desempata numa partida extra.",
+      "Personagem livre a cada partida; 2 minutos para conferir o controle antes da primeira.",
+    ],
+  },
+  {
+    slug: "smash",
+    name: "Super Smash Bros. Ultimate",
+    seats: 8,
+    mode: "Grupos e 1 × 1",
+    format: "Grupos e mata-mata",
+    days: "Quinta e sexta",
+    ask: "Nome, matrícula e o apelido na chave.",
+    phases: [
+      { day: "qui", name: "Grupos A e B", detail: "4 jogadores por grupo, numa batalha só. Os 2 melhores de cada grupo passam." },
+      { day: "qui", name: "Semifinais", detail: "1 × 1: 1º do A contra 2º do B, e 1º do B contra 2º do A." },
+      { day: "sex", name: "Final e 3º lugar", detail: "Quem venceu a semifinal disputa o título; quem perdeu, o 3º lugar." },
+    ],
+    watch: [
+      "Stock com 3 vidas e 7 minutos, sem itens e sem perigos de cenário.",
+      "Só com os controles da organização.",
+      "Chamou, você tem 3 minutos para chegar. Na fase final é W.O.; nos grupos, perde os pontos da partida.",
+    ],
+    rules: [
+      "Todos os personagens liberados; dá para trocar entre uma partida e outra.",
+      "Cenário no 1 × 1: o primeiro sai por veto entre Battlefield, Small Battlefield, Pokémon Stadium 2, Smashville e Town and City. Nos seguintes, quem venceu veta 2 e quem perdeu escolhe.",
+      "Acabou o tempo: vence quem tem mais vidas; empatou, quem tem menos dano. Se ainda empatar, uma partida de 1 vida e 3 minutos decide. A morte súbita do jogo não conta.",
+      "Proibido usar bug do jogo, receber orientação durante a partida e qualquer manipulação externa.",
+    ],
   },
 ];
 

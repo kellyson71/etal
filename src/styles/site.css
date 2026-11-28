@@ -1693,29 +1693,392 @@ a.cta--outline:hover .cta__dot {
   font-size: var(--t-s);
 }
 
-/* ── E-sports (red) ───────────────────────────────────────────────────────────────── */
+/* ── E-sports (lime): the sign-up on a black cell, the steps, the priority rule, then each game ──── */
 .esports {
   padding: calc(var(--u) * 12) var(--gutter);
+}
+.esports__signup {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: calc(var(--u) * 4);
+  align-items: start;
+}
+.esports__panel {
+  grid-column: 1 / span 6;
+  display: grid;
+  gap: calc(var(--u) * 1.75);
+  padding: calc(var(--u) * 4);
+}
+.esports__kicker {
+  font-size: var(--t-s);
+  color: var(--noite-muted);
+}
+.esports__dates {
+  font-size: clamp(3.4rem, 1.6rem + 7vw, 8.5rem);
+  line-height: 0.9;
+  color: var(--lime);
+}
+.esports__lead {
+  max-width: 40ch;
+  font-size: var(--t-body);
+  font-weight: 560;
+  line-height: 1.5;
+}
+.esports__full {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: var(--t-s);
+  font-weight: 700;
+}
+.esports__full .node {
+  border-radius: 50%;
+  background: var(--ponto);
+}
+.esports__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: calc(var(--u) * 0.5);
+}
+.esports__steps {
+  grid-column: 7 / -1;
+  display: grid;
+  border-top: 2px solid var(--ink);
+}
+.esports__steps li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: calc(var(--u) * 1.6);
+  border-bottom: 1px solid var(--c-line);
+}
+.esports__step-n {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.esports__steps strong,
+.game__phases strong {
+  display: block;
+  font-weight: 750;
+  line-height: 1.3;
+}
+.esports__steps li > span:last-child > span,
+.game__phases li > span:last-child > span {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: var(--t-s);
+  font-weight: 520;
+  line-height: 1.5;
+}
+
+/* The rule for clashing times, played out on three rows: the 2nd option goes dark. */
+.esports__priority {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: calc(var(--u) * 2.5);
+  align-items: center;
+  margin-block: calc(var(--u) * 7);
+  padding-block: calc(var(--u) * 4);
+  border-block: 2px solid var(--ink);
+}
+.esports__priority-text {
+  grid-column: 1 / span 5;
+  display: grid;
+  gap: 0.75rem;
+  max-width: 44ch;
+  font-weight: 560;
+  line-height: 1.5;
+}
+.esports__priority-title {
+  font-size: var(--t-l);
+  line-height: 1;
+}
+.esports__priority-max {
+  font-size: var(--t-s);
+  font-weight: 700;
+}
+.esports__picks {
+  grid-column: 7 / -1;
+  display: grid;
+  gap: 0.5rem;
+}
+.esports__picks li {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--noite);
+  color: var(--noite-ink);
+}
+.esports__pick {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--lime);
+}
+.esports__pick-game {
+  font-size: var(--t-m);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.esports__pick-note {
+  font-size: var(--t-xs);
+  color: var(--lime);
+  text-align: right;
+}
+.esports__picks .is-out {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.esports__picks .is-out .esports__pick,
+.esports__picks .is-out .esports__pick-note {
+  color: var(--ink);
+}
+.esports__picks .is-out .esports__pick-game {
+  text-decoration: line-through 2px;
+}
+
+/* Each game: a row of the scoreboard that opens into how it works, what can cost you the game and the rules. */
+.esports__list-title {
+  margin-bottom: calc(var(--u) * 2);
+  font-size: var(--t-s);
 }
 .games {
   border-bottom: 2px solid var(--ink);
 }
 .game {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: calc(var(--u) * 2);
-  padding-block: 0.4em;
   border-top: 2px solid var(--ink);
-  font-size: clamp(1.6rem, 0.6rem + 3.6vw, 4.5rem);
+  transition: background-color 0.25s;
+}
+.game[open] {
+  background: rgb(8 22 11 / 0.07);
+}
+.game::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 0.6s var(--ease-out),
+    content-visibility 0.6s allow-discrete;
+}
+.game[open]::details-content {
+  block-size: auto;
+}
+.game__summary {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr) 2.75rem;
+  align-items: center;
+  gap: var(--gutter);
+  padding: calc(var(--u) * 2.25) 1rem;
+  list-style: none;
+  cursor: pointer;
+}
+.game__summary::-webkit-details-marker {
+  display: none;
+}
+.game__summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -4px;
+}
+.game__number {
+  font-size: 2rem;
   line-height: 1;
 }
-.game .node {
-  width: 0.22em;
-  height: 0.22em;
+.game__heading {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.game__name {
+  font-size: clamp(1.6rem, 0.6rem + 3.6vw, 4.25rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+.game__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  font-size: var(--t-s);
+  font-weight: 600;
 }
 .game__seats {
+  padding: 0.2rem 0.55rem;
+  background: var(--ink);
+  color: var(--lime);
   font-size: var(--t-s);
+  line-height: 1.2;
+}
+.game--full .game__seats {
+  background: var(--noite);
+  color: var(--ponto);
+}
+.game--full .game__name {
+  text-decoration: line-through 0.06em;
+}
+.game__sign {
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+.game__summary:hover .game__sign,
+.game[open] .game__sign {
+  background: var(--ink);
+  color: var(--lime);
+}
+.game__sign::before,
+.game__sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0.85rem auto;
+  height: 2px;
+  margin-top: -1px;
+  background: currentColor;
+  transition: rotate 0.5s var(--ease-out);
+}
+.game__sign::after {
+  rotate: 90deg;
+}
+.game[open] .game__sign::after {
+  rotate: 0deg;
+}
+.game__body {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(var(--gutter) * 1.5);
+  padding: var(--u) calc(var(--gutter) + 3.75rem) calc(var(--u) * 4) calc(3.5rem + var(--gutter) + 1rem);
+}
+.game__col {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+.game__label {
+  font-size: var(--t-s);
+  line-height: 1.3;
+}
+.game__phases {
+  display: grid;
+}
+.game__phases li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 0.9rem;
+  padding-bottom: 1.1rem;
+}
+.game__phases li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: calc(1.625rem - 1px);
+  top: 3.4rem;
+  bottom: 0.2rem;
+  width: 2px;
+  background: var(--ink);
+}
+.game__day {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  background: var(--ink);
+  color: var(--lime);
+  font-size: 0.8rem;
+  line-height: 1.05;
+}
+.game__day span:last-child {
+  font-size: 1.35rem;
+}
+.game__day--step {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 2px var(--ink);
+  font-size: 1.2rem;
+}
+.game__day--cup {
+  border-radius: 50%;
+  background: var(--noite);
+  box-shadow: inset 0 0 0 0.85rem var(--noite), inset 0 0 0 2rem var(--ponto);
+}
+.game__phases li > span:last-child {
+  padding-top: 0.35rem;
+}
+.game__watch {
+  display: grid;
+  gap: 0.9rem;
+  padding: calc(var(--u) * 2.25);
+}
+.game__watch .game__label {
+  color: var(--lime);
+}
+.game__watch ul {
+  display: grid;
+  gap: 0.75rem;
+}
+.game__watch li {
+  display: grid;
+  grid-template-columns: 0.55rem minmax(0, 1fr);
+  gap: 0.75rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.game__watch li::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.45em;
+  border-radius: 50%;
+  background: var(--ponto);
+}
+.game__full {
+  font-size: var(--t-s);
+  font-weight: 650;
+  line-height: 1.5;
+}
+.game__rules {
+  display: grid;
+  gap: 0.7rem;
+  font-size: var(--t-s);
+  font-weight: 540;
+  line-height: 1.55;
+}
+.game__rules li {
+  display: grid;
+  grid-template-columns: 0.5rem minmax(0, 1fr);
+  gap: 0.7rem;
+}
+.game__rules li::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.5em;
+  border-radius: 1px;
+  background: currentColor;
+}
+.game__ask {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--c-line);
+  font-size: var(--t-s);
+  line-height: 1.5;
+}
+.esports__source {
+  margin-top: calc(var(--u) * 2.5);
+  font-size: var(--t-s);
+  font-weight: 560;
+}
+.esports__source a {
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 /* ── Venue (black): Pau dos Ferros as the one fired LED ───────────────────────────── */
@@ -2202,14 +2565,52 @@ a.cta--outline:hover .cta__dot {
     padding: var(--u) 0 calc(var(--u) * 4) 2.75rem;
   }
 
-  .game {
-    column-gap: 0.85rem;
-    padding-block: 0.55em;
+  .esports__panel,
+  .esports__steps,
+  .esports__priority-text,
+  .esports__picks {
+    grid-column: 1 / -1;
   }
-  .game__seats {
-    grid-column: 2;
+  .esports__panel {
+    padding: calc(var(--u) * 3) 1rem;
+  }
+  .esports__actions .cta {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+  .esports__picks li {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+  }
+  .esports__pick {
+    grid-row: span 2;
+  }
+  .esports__pick-note {
+    text-align: left;
+  }
+  .game__summary {
+    grid-template-columns: minmax(0, 1fr) 2rem;
+    gap: 0.85rem;
+    padding: calc(var(--u) * 2) 0;
+  }
+  .game__number {
+    display: none;
+  }
+  .game__sign {
+    width: 2rem;
+    height: 2rem;
+  }
+  .game__sign::before,
+  .game__sign::after {
+    inset-inline: 0.55rem;
+  }
+  .game__meta {
+    gap: 0.4rem 0.9rem;
     font-size: var(--t-xs);
-    margin-top: 0.3rem;
+  }
+  .game__body {
+    grid-template-columns: 1fr;
+    gap: calc(var(--u) * 4);
+    padding: var(--u) 0 calc(var(--u) * 4);
   }
 
   .venue {
