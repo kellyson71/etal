@@ -197,7 +197,6 @@ export const schedule: Session[] = [
   { day: "sex", start: "14:30", end: "14:50", title: "Intervalo", pause: true },
   { day: "sex", start: "14:50", end: "15:35", title: "Apresentação cultural" },
   { day: "sex", start: "15:35", end: "16:20", title: "Entrega dos prêmios e encerramento" },
-  { day: "sex", start: "16:20", end: "18:00", title: "Confraternização" },
 ];
 
 export const talks: Talk[] = [
