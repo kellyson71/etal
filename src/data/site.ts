@@ -345,7 +345,7 @@ export const COURSES: Course[] = [
     content:
       "Controle de versão: o que é e por que o Git virou padrão\nInstalação e configuração inicial (git config, identidade, branch padrão main, editor)\nConta no GitHub: criação, verificação em duas etapas e autenticação (SSH ou token)\nCiclo básico: init, status, add, commit, log, diff\n.gitignore e o que não deve ir para o repositório\nBranches: branch, switch, merge\nRepositórios remotos: clone, remote, fetch, pull, push\nDesfazendo erros: restore, revert, reset e stash\nFluxo de trabalho em equipe: issues, fork, pull request e code review\nConflitos de merge: por que acontecem e como resolver\nBoas práticas: mensagens de commit (Conventional Commits) e organização de branches\nPrática evolutiva em níveis, simulando situações reais de equipe\n",
     author: "Tallys Cesar Gurgel Batista",
-    picture: null,
+    picture: "/participants/tallys-cesar.png",
     vagas: null,
     period: "tarde",
     room: "Lab 58",
@@ -406,7 +406,8 @@ export const COURSES: Course[] = [
     slug: "docker-na-pratica",
     title:
       "Docker na prática: do “na minha máquina funciona” ao container rodando em qualquer lugar",
-    detail: null,
+    detail:
+      "Quem nunca ouviu (ou disse) “na minha máquina funciona”? Esse problema trava muitos projetos de estudantes e equipes. Neste minicurso prático, você vai entender o que é Docker, como containers se diferenciam de máquinas virtuais e como empacotar uma aplicação com suas dependências. Vamos executar containers, criar uma imagem com Dockerfile, persistir dados com volumes e montar um ambiente completo com Docker Compose (API + banco PostgreSQL). No caminho, você aprenderá boas práticas de segurança e a diagnosticar os erros mais comuns, como porta em uso, container que encerra sozinho e aplicação que não conecta ao banco.",
     requirements: null,
     audience: null,
     content: null,
@@ -420,12 +421,13 @@ export const COURSES: Course[] = [
     slug: "deploy-gratuito",
     title:
       "Deploy gratuito: coloque seus projetos pessoais no ar sem gastar 1,00 com infraestrutura",
-    detail: null,
+    detail:
+      "Eu demorei muito tempo para pegar essas manhas: muitos projetos pessoais morrem no notebook de quem os criou porque subir uma aplicação parece caro e complicado. Neste minicurso prático, vamos pegar uma API em Python (FastAPI) e levá-la do computador até a internet usando apenas planos gratuitos. Você vai containerizar a aplicação com Docker, automatizar testes e deploy com GitHub Actions, conectar um banco PostgreSQL na nuvem, publicar o back-end e o front-end e resolver na prática os problemas que aparecem nesse caminho, como variáveis de ambiente, CORS e cold start. Ao final, você terá um projeto funcional e acessível por uma URL pública.",
     requirements: null,
     audience: null,
     content: null,
     author: "Samuel Franklin de Oliveira Lopes",
-    picture: null,
+    picture: "/participants/samuel-franklin.jpg",
     vagas: null,
     period: "manha",
     room: "Lab 60",
@@ -459,13 +461,15 @@ export const COURSES: Course[] = [
     room: "Sala",
   },
   {
-    slug: "specification-driven-development",
+    slug: "agentes-autonomos-com-ia",
     title:
-      "Do Prompt ao Software: Specification-Driven Development na Era da IA",
-    detail: null,
+      "Além dos Prompts: Criando Agentes Autônomos com Inteligência Artificial",
+    detail:
+      "Neste minicurso, os participantes conhecerão os fundamentos dos agentes autônomos de Inteligência Artificial, aprendendo como funcionam, como são estruturados e como podem ser aplicados no desenvolvimento de soluções inteligentes e na automação de processos. Na prática, será utilizado o OpenBot para criar agentes integrados ao WhatsApp, explorando aplicações como captação de leads, atendimento automatizado, suporte e desenvolvimento de soluções personalizadas. Também serão abordadas boas práticas de segurança, privacidade, LGPD e supervisão humana.",
     requirements: null,
     audience: null,
-    content: null,
+    content:
+      "- Introdução à IA e aos modelos generativos.\n- Chatbots, assistentes e agentes: diferenças e funcionamento.\n- Automação tradicional vs. agentes autônomos.\n- Arquitetura de um agente: modelo, instruções, ferramentas, memória e APIs.\n- Planejamento, tomada de decisão e execução de tarefas.\n- Conhecendo o OpenBot e suas possibilidades.\n- Configuração e criação de agentes inteligentes.\n- Integração com o WhatsApp: APIs, regras e boas práticas.\n- Na prática: agente de captação e qualificação de leads.\n- Segurança, limites de autonomia, supervisão humana e LGPD.",
     author: "Jilcimar da Silva Fernandes",
     picture: null,
     vagas: null,
