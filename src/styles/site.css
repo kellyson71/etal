@@ -1272,8 +1272,24 @@ a.cta--outline:hover .cta__dot {
   border: 1px solid var(--c-line);
 }
 .board__tabs {
+  position: sticky;
+  top: 0;
+  z-index: 3;
   display: flex;
   border-bottom: 1px solid var(--c-line);
+  background: var(--noite);
+}
+/* The lit rule under the active day: it slides to the other tab when the board turns. */
+.board__bar {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: calc(100% / var(--n, 2));
+  height: 3px;
+  background: var(--lime);
+  box-shadow: 0 0 14px rgb(125 209 63 / 0.7);
+  translate: calc(100% * var(--i, 0)) 0;
+  transition: translate 0.7s var(--ease-out);
 }
 .board__tab {
   flex: 1;
@@ -1284,10 +1300,10 @@ a.cta--outline:hover .cta__dot {
   padding: clamp(0.8rem, 1.4vw, 1.25rem) clamp(0.9rem, 1.6vw, 1.5rem);
   border-right: 1px solid var(--c-line);
   text-align: left;
-  color: var(--led-dim);
+  color: var(--noite-muted);
   transition:
-    background-color 0.3s,
-    color 0.3s;
+    background-color 0.4s,
+    color 0.4s;
 }
 .board__tab:last-child {
   border-right: 0;
@@ -1295,11 +1311,11 @@ a.cta--outline:hover .cta__dot {
 .board__tab:hover {
   color: var(--lime);
 }
-.board__tab[aria-selected="true"] {
+.board__tab[aria-current="true"] {
   color: var(--lime);
-  background: rgb(125 209 63 / 0.08);
+  background: rgb(125 209 63 / 0.14);
 }
-.board__tab[aria-selected="true"] .led {
+.board__tab[aria-current="true"] .led {
   font-variation-settings: "ROND" 100;
 }
 .board__tab-day {
@@ -1311,10 +1327,59 @@ a.cta--outline:hover .cta__dot {
   font-weight: 560;
   color: var(--noite-muted);
 }
+.board__tab-hint {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-left: auto;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgb(238 245 233 / 0.28);
+  border-radius: var(--round);
+  font-size: var(--t-xs);
+  font-weight: 650;
+  color: var(--noite-ink);
+  transition:
+    border-color 0.3s,
+    background-color 0.3s,
+    color 0.3s;
+}
+.board__tab:hover .board__tab-hint,
+.board__tab:focus-visible .board__tab-hint {
+  border-color: var(--lime);
+  background: var(--lime);
+  color: var(--noite);
+}
+.board__tab-arrow {
+  display: inline-block;
+  transition: translate 0.3s var(--ease-out);
+}
+.board__tab:hover .board__tab-arrow {
+  translate: 0.2rem 0;
+}
+/* The day you are not on nudges, so it reads as something to press. */
+.board__tab:not([aria-current="true"]) .board__tab-arrow {
+  animation: board-nudge 1.8s var(--ease-out) infinite;
+}
+@keyframes board-nudge {
+  0%, 60%, 100% { translate: 0 0; }
+  30% { translate: 0.3rem 0; }
+}
 .board__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
   padding: 1rem clamp(0.9rem, 1.6vw, 1.5rem);
   font-size: var(--t-s);
-  color: var(--noite-muted);
+  color: var(--noite-ink);
+}
+.board__summary-day {
+  font-size: var(--t-m);
+  color: var(--lime);
+}
+.board__panel + .board__panel {
+  border-top: 3px solid var(--lime);
 }
 .board__row {
   display: grid;
@@ -1329,7 +1394,7 @@ a.cta--outline:hover .cta__dot {
   color: var(--lime);
 }
 .board__time--end {
-  color: var(--led-dim);
+  color: var(--noite-muted);
 }
 .board__title {
   font-size: var(--t-m);
@@ -1338,7 +1403,7 @@ a.cta--outline:hover .cta__dot {
 }
 .board__link {
   text-decoration: underline;
-  text-decoration-color: var(--led-dim);
+  text-decoration-color: rgb(125 209 63 / 0.6);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
   transition: text-decoration-color 0.2s;
@@ -2501,6 +2566,13 @@ a.cta--outline:hover .cta__dot {
   .board__tab {
     flex-direction: column;
     gap: 0.2rem;
+  }
+  .board__tab-hint {
+    margin: 0.35rem 0 0;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.68rem;
+    white-space: nowrap;
+    gap: 0.3rem;
   }
   .board__tab-day {
     font-size: var(--t-m);
